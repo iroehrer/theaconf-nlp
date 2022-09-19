@@ -8,7 +8,7 @@ The first step before being able to work with the data is aquiring the -- in thi
 
 In this case the complete command was: `wget -r -k -E -l 8 https://matters-of-urgency.de/`
 
-This dumps the webite as funktional html pages directly into the working folder.
+This dumps the webite as functional html pages directly into the working folder.
 
 ## Parsing the HTML
 
