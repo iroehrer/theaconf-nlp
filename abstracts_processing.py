@@ -1,13 +1,12 @@
 from bs4 import BeautifulSoup
 import os
 import json
-from langdetect import detect
 
 #initialise text for lists
 text_list = []
 all_abstracts = {}
  
-directory = "abstracts/"
+directory = "abstracts/deutsch"
 
 for filename in os.listdir(directory):
     f = os.path.join(directory, filename)
