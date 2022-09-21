@@ -28,9 +28,14 @@ with open("matters-of-urgency.de/" + "analyzing-activist-bodies.html", "r") as f
     
     #get pure text from html into text_list
     for text in raw_text_list:
-        text = text.get_text()
-        text_list.append(text.strip())
+        temptext = raw_text_list.find_all("p")
+        print(temptext)
         
-        print(text)
         
-    print(text_list)
+        
+        text2 = text.get_text()
+        text_list.append(text2.strip())
+        
+        print(text2)
+        
+    #print(text_list)
