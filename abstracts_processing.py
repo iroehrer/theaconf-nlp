@@ -65,7 +65,7 @@ with open("just-texts.txt", "w") as g:
 stopw = set(stopwords.words("german"))
 enstopw = set(stopwords.words("english"))
 
-add_stopw = ["für", "sowie", "über"]
+add_stopw = ["für", "sowie", "über", "u"]
 
 #stopw.add("für")
 
@@ -107,14 +107,18 @@ for abstract in just_texts:
                 word1 = wordelemt.text
                 i = sent1.index(word1)
                 
-                context = sent1[i-5:i+5]
+                context = sent1[max(i - 5, 0):i+5]
                 
                 mostcom_11_contexts[lemma].append(' '.join(context))
                 pass
             
 
-with open("11_test.txt", "w") as h:
-    h.write(json.dumps(mostcom_11_contexts, ensure_ascii=False))
+with open("11_test.txt", "w", encoding="utf-8") as h:
+    #h.write(json.dumps(mostcom_11_contexts, ensure_ascii=False))
+    for key, values in mostcom_11_contexts.items():
+        h.write(f'\n {key}: \n')
+        for value in values:
+            h.write(f'{value} \n')
 
 #for abstract in just_texts:
 #    for word in mostcom_11:
