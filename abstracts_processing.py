@@ -1,5 +1,6 @@
 import collections
 import json
+from operator import contains
 import os
 import unicodedata
 
@@ -7,6 +8,8 @@ import nltk
 import spacy
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
+from wordcloud import WordCloud
+from collections import defaultdict
 
 #initialise text for lists
 text_list = []
@@ -54,10 +57,21 @@ for filename in os.listdir(directory):
             #print(text)
             
         print(just_texts)
-
+        
+with open("just-texts.txt", "w") as g:
+    for i in just_texts:
+        g.write(i)
 
 stopw = set(stopwords.words("german"))
 enstopw = set(stopwords.words("english"))
+
+add_stopw = ["für", "sowie", "über"]
+
+#stopw.add("für")
+
+#
+for i in add_stopw:
+    stopw.add(i)
 
 nlp = spacy.load("de_core_news_sm")   
 
@@ -68,17 +82,65 @@ for textelment in just_texts:
         lemma = wordelemt.lemma_
         if lemma not in stopw and lemma not in enstopw and lemma != "--" and lemma != "’":
             all_words.append(lemma)
-     
-#for elem in all_words:
-#    if elem 
 
 freqcounter = collections.Counter(all_words)
 
 print(freqcounter.most_common(40))
 
-with open("just-texts.txt", "w") as g:
-    for i in just_texts:
-        g.write(i)
+
+
+mostcom_11 = freqcounter.most_common(11)
+mostcom_11 = [word for word, count in mostcom_11]
+
+mostcom_11_contexts = defaultdict(list)
+
+for abstract in just_texts:
+    nlptext = nlp(abstract)
+    
+    for sent in nlptext.sents:
+        for wordelemt in sent:
+            lemma = wordelemt.lemma_
+            if lemma in mostcom_11:
+                sent1 = sent.text.replace('/', ' ')
+                sent1 = sent1.split(" ")
+                sent1 = [word.strip(',.?!():;"„“ ') for word in sent1]
+                word1 = wordelemt.text
+                i = sent1.index(word1)
+                
+                context = sent1[i-5:i+5]
+                
+                mostcom_11_contexts[lemma].append(context)
+                pass
+            
+with open("11_test.txt", "w") as h:
+    h.write(json.dumps(mostcom_11_contexts, ensure_ascii=False))
+
+#for abstract in just_texts:
+#    for word in mostcom_11:
+#        if word in abstract:
+#            context = 
+
+
+
+#### Create Wordcloud
+
+text = ' '.join(all_words)
+
+# Generate a word cloud image
+wordcloud = WordCloud().generate(text)
+
+# Display the generated image:
+# the matplotlib way:
+import matplotlib.pyplot as plt
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+
+# lower max_font_size
+wordcloud = WordCloud(max_font_size=40).generate(text)
+plt.figure()
+plt.imshow(wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
 
 
 #a = just_texts[1]

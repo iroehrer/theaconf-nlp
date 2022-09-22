@@ -1,0 +1,4 @@
+nltk
+spacy
+beautifulsoup4
+wordcloud
