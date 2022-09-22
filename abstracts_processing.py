@@ -109,9 +109,10 @@ for abstract in just_texts:
                 
                 context = sent1[i-5:i+5]
                 
-                mostcom_11_contexts[lemma].append(context)
+                mostcom_11_contexts[lemma].append(' '.join(context))
                 pass
             
+
 with open("11_test.txt", "w") as h:
     h.write(json.dumps(mostcom_11_contexts, ensure_ascii=False))
 
