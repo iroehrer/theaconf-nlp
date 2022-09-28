@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 from wordcloud import WordCloud
 from collections import defaultdict
+import pytextrank
 
 #initialise text for lists
 text_list = []
@@ -77,8 +78,15 @@ add_stopw = ["für", "sowie", "über", "u", "innen", "inn"]
 for i in add_stopw:
     stopw.add(i)
 
+
+#### Create NLP model
+
 #load pretrained spaCy nlp model for german
-nlp = spacy.load("de_core_news_sm")   
+nlp = spacy.load("de_core_news_sm")  
+
+nlp.add_pipe("textrank") 
+
+phrases = []
 
 #execute nlp pipeline for all texts
 for textelment in just_texts:
@@ -89,6 +97,9 @@ for textelment in just_texts:
         lemma = wordelemt.lemma_
         if lemma not in stopw and lemma not in enstopw and lemma != "--" and lemma != "’":
             all_words.append(lemma)
+    
+    for phrase in nlptext._.phrases:
+        phrases.append(phrase)
 
 #count the frequency of every lemma
 freqcounter = collections.Counter(all_words)
@@ -169,6 +180,8 @@ with open("praktik_sentences.txt", "w", encoding="utf-8") as j:
 with open("praktik_title.txt", "w", encoding="utf-8") as k:
     for title in praktik_title:
         k.write(f'{title} \n')
+
+
 
 
 #### Create Wordcloud
