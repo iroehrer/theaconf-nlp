@@ -1,16 +1,15 @@
 import collections
 import json
-from operator import contains
 import os
 import unicodedata
+from collections import defaultdict
+from operator import contains
 
-import nltk
+import pytextrank
 import spacy
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 from wordcloud import WordCloud
-from collections import defaultdict
-import pytextrank
 
 #initialise text for lists
 text_list = []
@@ -84,6 +83,8 @@ for i in add_stopw:
 #load pretrained spaCy nlp model for german
 nlp = spacy.load("de_core_news_sm")  
 
+
+#add pipeline to spacy nlp pipe for analyzing phrases
 nlp.add_pipe("textrank") 
 
 phrases = []
@@ -181,21 +182,41 @@ with open("praktik_title.txt", "w", encoding="utf-8") as k:
     for title in praktik_title:
         k.write(f'{title} \n')
 
+#### Dealing with Phrases
+#create one lemmatized string of all abstracts
+text = ' '.join(all_words)
 
+#### Extracting Phrases
+
+
+#initialise lists for phrases
+rel_phrases = []
+lem_phrases = []
+
+#extract relevant phrases: that occur more than once and contain more than 1 word
+for phrase in phrases:
+    c = phrase.count
+    w_num = len(phrase.text.split())
+    if c > 1 and w_num > 1:
+        rel_phrases.append(phrase)
+        
+nlpdoc = nlp(text)
+
+#extract phrases from lemmatized text to get more accurate total of occurence
+for phrase in nlpdoc._.phrases:
+    c = phrase.count
+    w_num = len(phrase.text.split())
+    if c > 1 and w_num > 1:
+        lem_phrases.append(phrase)
+
+#make a sorted list of lemmatized phrases, sorted by "rank" (automatically assigned)
+sort_phrases = sorted(lem_phrases, key=lambda phrase: phrase.rank)
+
+#print sorted list
+print(sort_phrases)
 
 
 #### Create Wordcloud
-
-#create one string of all abstracts
-text = ' '.join(all_words)
-
-#check binary representation of the words
-#for word in mostcom_11:
-#    hexwords = ':'.join(hex(ord(x))[2:] for x in word )
-#    print(word)
-#    print(hexwords)
-#
-#print(type(text))
 
 
 # Generate a word cloud image
@@ -207,6 +228,7 @@ wordcloud.to_file("figure.png")
 # Display the generated image:
 # the matplotlib way:
 import matplotlib.pyplot as plt
+
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis("off")
 
