@@ -30,3 +30,7 @@ Not all abstracts share the same language, the big majority is german (40), two 
 ### Frequency list
 
 To create a frequency list of all the abstracts, each text is processed through the pretrained spaCy nlp pipeline for german (https://spacy.io/models/de#de_core_news_sm). Through that it's possible to extract each words lemma and build a list of all lemmas which is then counted for frequencies. To get only relevant words it's important to weed out stopwords -- unnecessary words that don't carry meaning but occur very often (e.g. "der", "werden", "in"). To do that built-in stopword lists from the nltk library (https://www.nltk.org/index.html) are used for german and english. 
+
+### Wordcloud
+
+A colourful visualisation of word frequencies is a wordcloud, in this case created with a wordcloud library for python. (https://pypi.org/project/wordcloud/) dimensions and scaling for the image can be controlled directly in the script.
