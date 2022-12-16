@@ -34,3 +34,23 @@ To create a frequency list of all the abstracts, each text is processed through 
 ### Wordcloud
 
 A colourful visualisation of word frequencies is a wordcloud, in this case created with a wordcloud library for python. (https://pypi.org/project/wordcloud/) dimensions and scaling for the image can be controlled directly in the script.
+
+## This Repository:
+
+abstracts folder: all abstracts as html files
+
+matter-of-urgency.de folder: all html pages from the website as dump
+
+11_test.txt: contexts for 11 most common words
+
+abstracts_processing.py: Python script to work with everything
+
+just-texts.txt: all plain text from all abstracts
+
+figure.png: wordcloud picture
+
+praktik_sentences.txt: All sentences with "Praktik"
+
+praktik_title.txt: All titles from abstracs containing the word "Praktik" 
+
+requirements.txt: list of requirements for this repository
