@@ -1,4 +1,6 @@
 # theaconf-nlp
+Link to this repository: https://github.com/iroehrer/theaconf-nlp
+
 
 This repository is a collection different ways to analyse the the text (mostly abstracts) from the website of the 2022 Gesellschaft für Theaterwissenschaft congress "Matters Of Urgency": https://matters-of-urgency.de/
 
